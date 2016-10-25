@@ -1,3 +1,4 @@
+import argparse
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
@@ -14,23 +15,20 @@ class Browser():
         if self.browser == 'FireFox':
             drive= self.initate_firefox()
         self.get_url()
-        return drive
 
     def initate_firefox(self):
         print "Opening FireFox Browser.."
-        driver = webdriver.Firefox()
-        driver.implicitly_wait(10)  
-        driver.maximize_window()
-        return driver
+        self.driver = webdriver.Firefox()
+        self.driver.implicitly_wait(10)
+        self.driver.maximize_window()
 
     def get_url(self):
         print "Entering url in the browser.." + self.uri
-        driver.get(url=self.uri)
-
-
+        self.driver.get(url=self.uri)
 
 
 class Lister(Browser):
+
     def __init__(self,link,explorer):
         self.link = link
         self.explorer = explorer
@@ -38,7 +36,7 @@ class Lister(Browser):
 
     def set_up(self):
         print "Setting up...\n"
-        self.driver = Browser(self.explorer,self.link)
+        Browser(self.explorer,self.link)
         self.run()
 
     def run(self):
@@ -93,6 +91,12 @@ class Lister(Browser):
 
 
 
-a= Lister("https://www.flipkart.com","FireFox")
-a.set_up()
+
+if __name__ == 'main':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-B', '--browser')
+    parser.add_argument('-U', '--url')
+    parser.add_argument('-S', '--searchKeyword')
+    args = parser.parse_args()
+
 
