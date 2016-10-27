@@ -14,20 +14,28 @@ class main():
     parser.add_argument('-U', '--url',help = 'Name of the url link',default= 'https://www.flipkart.com')
     parser.add_argument('-S', '--searchKeyword',help = 'serch keyword for searching in the browser',default='Laptop')
     args = parser.parse_args()
-    print args.browser, args.url,args.searchKeyword
+    browser = args.browser
+    url =  args.url
+    search_keyword = args.searchKeyword
+    print 'calling Browser class'
+    b = Browser()
+
 
 
 
 
 if __name__ == '__main__':
+    print 'In main'
     main()
 
 
-class Browser():
+class Browser(main):
     global driver
-    def __init__(self,browser,url):
-        self.browser = browser
-        self.uri = url
+    main_obj = main()
+    def __init__(self):
+        print "In Browser class"
+        self.browser = main.browser
+        self.uri = main.url
         if self.browser == 'FireFox':
             drive= self.initate_firefox()
         self.get_url()

@@ -6,10 +6,16 @@ Selnium webdriver and Python enables the automation of listing the products as p
 ##Libraries used
 
 selenium
+
 argparse 
+
 pretty table
 
+## Input
 
+default --- Generic_Sol_List.py 
+
+command line argumnents : -B 'browser'  -U 'url'  -S 'search Keyword'
 
 ##Installation
 
