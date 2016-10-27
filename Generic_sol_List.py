@@ -7,20 +7,19 @@ from prettytable import PrettyTable
 
 driver = ''
 
-def main():
+class main():
+    # taking arguments from the command line
     parser = argparse.ArgumentParser(description='Processing of browser name and url')
-    parser.add_argument('-B', '--browser',help = 'Name of the browser')
-    parser.add_argument('-U', '--url',help = 'Name of the url link')
-    parser.add_argument('-S', '--searchKeyword',help = 'serch keyword for searching in the browser')
+    parser.add_argument('-B', '--browser',help = 'Name of the browser',default= 'FireFox')
+    parser.add_argument('-U', '--url',help = 'Name of the url link',default= 'https://www.flipkart.com')
+    parser.add_argument('-S', '--searchKeyword',help = 'serch keyword for searching in the browser',default='Laptop')
     args = parser.parse_args()
-    print args.browser
-    print args.url
-    print args.searchKeyword
+    print args.browser, args.url,args.searchKeyword
 
 
 
 
-if __name__ == 'main':
+if __name__ == '__main__':
     main()
 
 
