@@ -20,18 +20,8 @@ class main():
     print 'calling Browser class'
     b = Browser()
 
-
-
-
-
-if __name__ == '__main__':
-    print 'In main'
-    main()
-
-
 class Browser(main):
     global driver
-    main_obj = main()
     def __init__(self):
         print "In Browser class"
         self.browser = main.browser
@@ -116,3 +106,8 @@ class Lister(Browser):
 
 
 
+
+
+if __name__ == '__main__':
+    print 'In main'
+    main()
