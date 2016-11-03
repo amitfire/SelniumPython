@@ -6,9 +6,12 @@ from selenium.common.exceptions import WebDriverException
 from prettytable import PrettyTable
 
 driver = ''
-
-class main():
+browser = ''
+url = ''
+search_keyword = ''
+def main():
     # taking arguments from the command line
+    global browser,url,search_keyword
     parser = argparse.ArgumentParser(description='Processing of browser name and url')
     parser.add_argument('-B', '--browser',help = 'Name of the browser',default= 'FireFox')
     parser.add_argument('-U', '--url',help = 'Name of the url link',default= 'https://www.flipkart.com')
@@ -18,16 +21,18 @@ class main():
     url =  args.url
     search_keyword = args.searchKeyword
     print 'calling Browser class'
-    b = Browser()
+    b  = Browser()
 
-class Browser(main):
-    global driver
+
+class Browser():
+    global driver,browser,url,search_keyword
     def __init__(self):
         print "In Browser class"
-        self.browser = main.browser
-        self.uri = main.url
+        self.browser = browser
+        self.uri = url
+        print self.browser,browser
         if self.browser == 'FireFox':
-            drive= self.initate_firefox()
+            driver= self.initate_firefox()
         self.get_url()
 
     def initate_firefox(self):
