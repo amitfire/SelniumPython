@@ -11,7 +11,7 @@ url = ''
 search_keyword = ''
 def main():
     # taking arguments from the command line
-    global browser,url,search_keyword
+    global browser,url,search_keyword,driver
     parser = argparse.ArgumentParser(description='Processing of browser name and url')
     parser.add_argument('-B', '--browser',help = 'Name of the browser',default= 'FireFox')
     parser.add_argument('-U', '--url',help = 'Name of the url link',default= 'https://www.flipkart.com')
@@ -20,8 +20,10 @@ def main():
     browser = args.browser
     url =  args.url
     search_keyword = args.searchKeyword
-    print 'calling Browser class'
-    b  = Browser()
+    # print 'calling Browser class'
+    # browser_object = Browser()
+    print 'calling Lister Class'
+    lister_object = Lister()
 
 
 class Browser():
@@ -30,13 +32,13 @@ class Browser():
         print "In Browser class"
         self.browser = browser
         self.uri = url
-        print self.browser,browser
         if self.browser == 'FireFox':
             driver= self.initate_firefox()
         self.get_url()
 
     def initate_firefox(self):
         print "Opening FireFox Browser.."
+        self.driver = driver
         self.driver = webdriver.Firefox()
         self.driver.implicitly_wait(10)
         self.driver.maximize_window()
@@ -46,17 +48,14 @@ class Browser():
         self.driver.get(url=self.uri)
 
 
-class Lister(Browser):
+class Lister():
 
-    def __init__(self,link,explorer):
-        self.link = link
-        self.explorer = explorer
-
-
-    def set_up(self):
-        print "Setting up...\n"
-        Browser(self.explorer,self.link)
+    def __init__(self):
+        print 'In Lister Class'
+        b = Browser()
+        self.driver = b.driver
         self.run()
+
 
     def run(self):
         self.laptop_list = []
