@@ -4,7 +4,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import WebDriverException
 from prettytable import PrettyTable
-
+# defining global variables
 driver = ''
 browser = ''
 url = ''
@@ -20,41 +20,41 @@ def main():
     browser = args.browser
     url =  args.url
     search_keyword = args.searchKeyword
-    # print 'calling Browser class'
-    # browser_object = Browser()
-    print 'calling Lister Class'
+    #Calling Lister Class
     lister_object = Lister()
 
 
 class Browser():
+    #Browser Class for selection of browser as per input
     global driver,browser,url,search_keyword
     def __init__(self):
         print "In Browser class"
         self.browser = browser
         self.uri = url
         if self.browser == 'FireFox':
-            driver= self.initate_firefox()
+            driver= self.initate_firefox()    # Firefox browser initiated
         self.get_url()
 
     def initate_firefox(self):
         print "Opening FireFox Browser.."
         self.driver = driver
-        self.driver = webdriver.Firefox()
+        self.driver = webdriver.Firefox()        # Managing Firefox Browser
         self.driver.implicitly_wait(10)
         self.driver.maximize_window()
 
     def get_url(self):
-        print "Entering url in the browser.." + self.uri
+        print "Entering url in the browser.." + self.uri     # Entering URL specified in the browser
         self.driver.get(url=self.uri)
 
 
 class Lister():
+    # Lister Class
     global search_keyword
     def __init__(self):
         print 'In Lister Class'
         b = Browser()
-        self.driver = b.driver
-        self.search_keyword = search_keyword
+        self.driver = b.driver          # getting driver attribute of Browser class
+        self.search_keyword = search_keyword   # getting search keyword like 'Laptop'
         self.run()
 
 
@@ -66,35 +66,38 @@ class Lister():
             # getting the search field element by class name
         except NoSuchElementException as e:
             print e
-        self.search_field.clear()
-        self.search_field.send_keys(str(self.search_keyword))
-        print "Entering %s in search Field\n"%(self.search_keyword )# sending the search text to search field
+        self.search_field.clear()                 # cleared search field
+        self.search_field.send_keys(str(self.search_keyword))    # sending search keyword to search field
+        print "Entering %s in search Field\n"%(self.search_keyword )
         self.search_field.submit()
         try:
+            # finding the elements sorted in some order like 'Popularity','Relevance','New First'
             fr = self.driver.find_element_by_xpath('/html/body/div[1]/div/div[2]/div[2]/div/div[2]/div[2]/div/section/ul')
             items = fr.find_elements_by_tag_name("li")
             for item in range(len(items)):
                 if items[item].text == 'Popularity':
+                    #Popularity selected
                     xpath = '/html/body/div[1]/div/div[2]/div[2]/div/div[2]/div[2]/div/section/ul/li[' + str(item + 1) + ']'
         except WebDriverException as e:
             print e
         page_number = 1
-        while page_number <= 10:
+        while page_number <= 10:   # iterating over total no. of pages
             try:
                 while True:
                     try:
-                        self.driver.find_element_by_xpath(xpath).click()
+                        self.driver.find_element_by_xpath(xpath).click()  # clicking Popularity order
                     except WebDriverException as e :
                         print e
                     else:
                         continue
 
                 x = self.driver.find_elements_by_class_name("_3wU53n")
+
                 print "Getting all the %s name from "+ "page" + str(page_number)+ "\n"%self.search_keyword
                 for i in range(len(x)):
                     try:
                         A = x[i].text
-                        self.laptop_list.append(A)
+                        self.laptop_list.append(A) # Appending list of laptops with their details
                     except UnicodeEncodeError as e:
                         print e
             except NoSuchElementException as e:
@@ -121,5 +124,5 @@ class Lister():
 
 
 if __name__ == '__main__':
-    print 'In main'
+    #Main Function
     main()
