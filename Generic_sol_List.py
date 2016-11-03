@@ -15,7 +15,7 @@ def main():
     parser = argparse.ArgumentParser(description='Processing of browser name and url')
     parser.add_argument('-B', '--browser',help = 'Name of the browser',default= 'FireFox')
     parser.add_argument('-U', '--url',help = 'Name of the url link',default= 'https://www.flipkart.com')
-    parser.add_argument('-S', '--searchKeyword',help = 'serch keyword for searching in the browser',default='Laptop')
+    parser.add_argument('-S', '--searchKeyword',help = 'serch keyword for searching in the browser',default='Laptops')
     args = parser.parse_args()
     browser = args.browser
     url =  args.url
@@ -49,11 +49,12 @@ class Browser():
 
 
 class Lister():
-
+    global search_keyword
     def __init__(self):
         print 'In Lister Class'
         b = Browser()
         self.driver = b.driver
+        self.search_keyword = search_keyword
         self.run()
 
 
@@ -66,8 +67,8 @@ class Lister():
         except NoSuchElementException as e:
             print e
         self.search_field.clear()
-        self.search_field.send_keys("Laptops")
-        print "Entering Laptops in search Field\n"# sending the search text to search field
+        self.search_field.send_keys(str(self.search_keyword))
+        print "Entering %s in search Field\n"%(self.search_keyword )# sending the search text to search field
         self.search_field.submit()
         try:
             fr = self.driver.find_element_by_xpath('/html/body/div[1]/div/div[2]/div[2]/div/div[2]/div[2]/div/section/ul')
@@ -80,9 +81,16 @@ class Lister():
         page_number = 1
         while page_number <= 10:
             try:
-                self.driver.find_element_by_xpath(xpath).click()
+                while True:
+                    try:
+                        self.driver.find_element_by_xpath(xpath).click()
+                    except WebDriverException as e :
+                        print e
+                    else:
+                        continue
+
                 x = self.driver.find_elements_by_class_name("_3wU53n")
-                print "Getting all the Laptops name from "+ "page" + str(page_number)+ "\n"
+                print "Getting all the %s name from "+ "page" + str(page_number)+ "\n"%self.search_keyword
                 for i in range(len(x)):
                     try:
                         A = x[i].text
